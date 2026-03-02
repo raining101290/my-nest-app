@@ -4,10 +4,14 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { StudentModule } from './student/student.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -19,6 +23,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
     }),
     StudentModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

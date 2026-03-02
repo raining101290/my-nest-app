@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
@@ -7,6 +8,7 @@
     "isolatedModules": true,
     "declaration": true,
     "removeComments": true,
+    "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
