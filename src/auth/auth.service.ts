@@ -8,7 +8,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { User } from 'src/user/user.entity';
+import { Role, User } from 'src/user/user.entity';
 import { LoginDto } from './dto/login.dto';
 import { UserResponseDto } from '../user/dto/user-response.dto';
 import { UserService } from 'src/user/user.service';
@@ -29,17 +29,18 @@ export class AuthService {
     );
 
     if (existingUser) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException('User already exists');
     }
-
-    const user = await this.userService.create(createUserDto);
+    const user = await this.userService.create({
+      ...createUserDto,
+      roles: createUserDto.roles ?? [Role.STUDENT],
+    });
 
     return {
       id: user.id,
       email: user.email,
       username: user.username,
       phone: user.phone,
-      role: user.role,
     };
   }
 
@@ -70,9 +71,11 @@ export class AuthService {
   // ========================
   async login(user: User) {
     const payload = {
-      sub: user.id,
+      user_id: user.id,
+      username: user.username,
+      phone: user.phone,
       email: user.email,
-      role: user.role,
+      roles: user.roles,
     };
 
     return {

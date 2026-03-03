@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { UserRole } from '../user.entity';
+import { Role } from '../user.entity';
 
 export class CreateUserDto {
   @IsEmail()
@@ -22,6 +22,6 @@ export class CreateUserDto {
   phone: string;
 
   @IsOptional()
-  @IsEnum(UserRole)
-  role?: UserRole;
+  @IsEnum(Role, { each: true })
+  roles?: Role[] = [Role.STUDENT];
 }
